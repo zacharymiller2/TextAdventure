@@ -16,7 +16,10 @@ function interpret (input){
 }
 
 function execute (object){
-  console.log("execute");
+  var action = command.action;
+  var actionFuntion = player[action];
+  actionFunction(...);
+   }
 }
 
 function report () {
