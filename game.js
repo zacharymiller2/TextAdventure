@@ -9,8 +9,8 @@ function gameStart() {
 			var newWords=document.getElementByTagName("descrip");
 			newWords.textContent = "Your name is..."
 		}
-	while(){
-		
+	while(player1.items.indexOf('gold key') ==0){
+		gameStep();
 	}
 	}
 };
@@ -119,6 +119,7 @@ function Player (playerName, currentLoc, pointsAcquired) {
   	this.name = playerName; 
 	this.location= currrentLoc;
 	this.points = pointsAcquired;
+	this.items [];
 };
   
 
