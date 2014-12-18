@@ -5,13 +5,17 @@ function gameStart() {
 	var inputBox = document.getElementById("action");
 	inputBox.addEventListener("keyup", function(event) {
 		if (event.keyCode === 13) {
-			//customizePlayer(this.value);
-			var newWords=document.getElementByTagName("descrip");
-			newWords.textContent = "Your name is..."
+			descrip = document.querySelector("#descrip");
+			clearContent(descrip);
+			
+				item = document.createElement ("li");
+				item.textContent = "Your name is "+ input;
+				decrip.appendChild(item);
+			}
 		}
-	while(player1.items.indexOf('gold key') ==0){
-		gameStep();
-	}
+		while(player1.items.indexOf('gold key') ==0){
+			gameStep();
+		}
 	}
 };
 
@@ -33,32 +37,27 @@ function customizePlayer(input) {
 	var player1= new Player(inputOne,"Foyer", 0);
 	
 }
-/*
-Parse and normalize the user input string.
-*/
+
+//Parse and normalize the user input string.
 function interpret(input) {
 	var cmd = {}, tokens = input.trim().toLowerCase().split(" ");
 	cmd.action = tokens.shift();
 	cmd.target = tokens.join(" ");
 	return cmd;
 }
-/*
-Perform the desired player action.
-*/
+
+//Perform the desired player action.
 function execute(command) {
 	player[command.action](command.target);
 }
-/*
-Display any results/changes on the page.
-*/
+
+//Display any results
 function report(result) { // note: parameter not currently used
 	displayActions();
 	displayInventory();
 	displayScene();
 }
-/*
-Loop over each player method and add it to the Web page.
-*/
+
 function displayActions() {
 	var field, action, actionList;
 	actionList = document.querySelector("#help > ul");
@@ -90,7 +89,12 @@ Get the description of the player's current location and write it to the page.
 */
 
 function displayScene() {
-// Hmmm... need to implement this function...
+				descrip = document.querySelector("#descrip");
+				clearContent(descrip);
+			
+				item = document.createElement ("li");
+				item.textContent = location.description;
+				decrip.appendChild(item);
 }
 
 /*
@@ -98,7 +102,12 @@ This could be used along with a new paragraph element to display certain message
 */
 
 function displayFeedback(msg) {
-// Hmmm... need to implement this function...
+descrip = document.querySelector("#descrip");
+			clearContent(descrip);
+			
+				item = document.createElement ("li");
+				item.textContent = msg;
+				decrip.appendChild(item);
 }
 
 /*
@@ -123,17 +132,18 @@ function Player (playerName, currentLoc, pointsAcquired) {
 };
   
 
-/*
-Take an item from the world and add it to the player.
-Helpful functions: Location.has, Location.remove, displayFeedback
-*/
+
 Player.prototype.pickup = function(item) {
 	if (location.has(item)){// check whether the current location has the item
 		location.remove(item);// remove the item from the current location
 		this.items.push(item);
 	}else{
-		// otherwise
-		//return(); display feedback indicating that the item is not present
+	descrip = document.querySelector("#descrip");
+			clearContent(descrip);
+			
+				item = document.createElement ("li");
+				item.textContent = "That Item is not Present";
+				decrip.appendChild(item);
 	}
 };
 /*
@@ -149,41 +159,21 @@ Player.prototype.drop = function(item) {
 		// display feedback indicating that the player doesn't have item
 	}
 };
-/*
-Move the player around the map.
-Helpful functions: indexOfLocation, isConnected, displayFeedback
-*/
+
 player.go = function(locName) {
 	var locNum; 
 	player1.location= locName;
 };
 
-player.use = function(item) {
-// check first that the user has the item
-// then "use" the item... what this means or how it works depends on your game
-// otherwise
-// display feedback indicating that the player doesn't have this item
-}
 
-/*
-Constructor used to create all the locations in the game.
-Notice that I have added an initialItems parameter so that
-we can start the location out with some items in it.
-You might need to add more parameters to this constructor
-if there are other properties that need initial values.
-*/
+
 function Location(name, descrip, initialItems) {
 	this.name = name;
 	this.description = function() {
 		return descrip;
 	}
 this.items = initialItems;
-// add any additional properties that you need, suggested ideas include:
-// - a list of prerequisite items needed to enter the location
-// - boolean variable to indicate locked/unlocked
-// - boolean variable to indicate dark/illuminated
-// - list of monsters/enemies/etc. in the location
-// - anything else you can think of that work for your story!
+
 }
 
 
@@ -197,7 +187,12 @@ Location.prototype.remove = function(item) {
 	if (pos >= 0) {
 		this.items.splice(pos, 1);
 	} else {
-		// display feedback indicating that the player doesn't have item
+		descrip = document.querySelector("#descrip");
+			clearContent(descrip);
+			
+				item = document.createElement ("li");
+				item.textContent = "The Player does not have the item requested";
+				decrip.appendChild(item);
 	}
 
 };
@@ -206,18 +201,10 @@ Location.prototype.put = function(item) {
 	this.items.push(item);
 }
 
-/*
-NOTE: For the functions below, we could instead make them methods of our
-map object - then we could call them as map.connect(from,to)
-*/
-
-//function indexOfLocation = function(map, locName) {
-// this should work like indexOf, but searches for a location whose name matches
-//}
 function isConnected(map, from, to) {
-// check if there is a 1 in the corresponding cell of connections
+
 }
-// example - how to write a function that makes a path between two locations
+
 function connect(map, from, to) {
 	map.connections[from][to] = 1;
 	map.connections[to][from] = 1;
@@ -235,19 +222,4 @@ var map = {
 		new Location("Family Room", "You are in the Family Room, the windows are all broken. It is very cold and there is snow all over the ground. Along with penguins", ["penguin","shovel"])
 ],
 connections: [ [0, 0, 0], [0, 0, 0], [0, 0, 0] ]
-};
-
-// example of a different way to build the adjacency matrix
-connect(map, 0, 1);
-connect(map, 1, 2);
-connect(map, 2, 0);
-// little test function so we can get used to the matrix and see if it works
-function testMap() {
-	var j;
-	console.log("The " + map.locations[0].name + " is adjacent to:");
-	for (j in map.connections[0]) {
-		if (map.connections[0][j] === 1) {
-			console.log(" the " + map.locations[j].name);
-		}
-	}
 };
