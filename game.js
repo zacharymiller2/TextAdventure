@@ -1,36 +1,19 @@
 /*
-Room = function (roomName, objectInRoom,){
-
-function gameIntro() {
-	var inputBox = document.querySelector("input");
-	var listener = function(event) {
-		if (event.keyCode === 13) {
-			// remove this listener before continuing so it only runs once
-			event.target.removeEventListener("keyup", listener);
-			customizePlayer(this.value);
-			gameStart();
-		}
-	};
-  inputBox.addEventListener ("keyup", listener);
-}
-/*
 Start the main game loop.
 */
 function gameStart() {
-	//var inputBox = document.getElementById("action");
-	//inputBox.addEventListener("keyup", function(event) {
-	//	if (event.keyCode === 13) {
+	var inputBox = document.getElementById("action");
+	inputBox.addEventListener("keyup", function(event) {
+		if (event.keyCode === 13) {
 			//customizePlayer(this.value);
 			var newWords=document.getElementByTagName("descrip");
 			newWords.textContent = "Your name is..."
-
-//		}
+		}
+	while(){
+		
+	}
+	}
 };
-// we should also perform a few other start-of-game tasks, such as
-// - set the player's starting propreties (location and any initial items)
-// - display the help (list of commands)
-// - display the initial scene
-// - anything else you need to do before the user starts entering commands
 
 /*
 Run one pass of the game loop.
